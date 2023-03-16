@@ -1,24 +1,24 @@
 ﻿using Application.Exceptions;
 using Application.Exceptions.ProblemDetails;
+using Application.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Logging;
 using System.Net;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Application.Middlewares
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next)
+        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
             _next = next;
+            _logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -29,14 +29,14 @@ namespace Application.Middlewares
             }
             catch (Exception exception)
             {
-                await HandleExceptionAsync(exception,context);
+                await HandleExceptionAsync(exception, context);
             }
         }
         Task HandleExceptionAsync(Exception exception, HttpContext context)
         {
             context.Response.ContentType = "application/json";
 
-            if(exception.GetType() == typeof(ValidatorException)) return ValidatorExceptionHandle(context,exception);
+            if (exception.GetType() == typeof(ValidatorException)) return ValidatorExceptionHandle(context, exception);
 
             return InternalExceptionHandle(context, exception);
         }
@@ -46,7 +46,16 @@ namespace Application.Middlewares
             context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.BadRequest);
             var errors = ((ValidatorException)exception).Errors;
 
-            return context.Response.WriteAsync(new ValidatorProblemDetails 
+            LogDetail logDetail = new()
+            {
+                RequestName = context.Request.Path,
+                Exceptions = string.Join(", ", errors),
+                MethodName = context.Request.Method
+            };
+
+            _logger.LogWarning(JsonSerializer.Serialize(logDetail));
+
+            return context.Response.WriteAsync(new ValidatorProblemDetails
             {
                 Status = StatusCodes.Status400BadRequest,
                 Title = "Validator Errors",
@@ -57,18 +66,27 @@ namespace Application.Middlewares
             }.ToString());
         }
 
-        Task InternalExceptionHandle(HttpContext context,Exception exception)
+        Task InternalExceptionHandle(HttpContext context, Exception exception)
         {
             context.Response.StatusCode = Convert.ToInt32(HttpStatusCode.InternalServerError);
 
-            return context.Response.WriteAsync(new ProblemDetails 
+            LogDetail logDetail = new()
+            {
+                RequestName = context.Request.Path,
+                Exceptions = exception.Message,
+                MethodName = context.Request.Method
+            };
+
+            _logger.LogError(JsonSerializer.Serialize(logDetail));
+
+            return context.Response.WriteAsync(JsonSerializer.Serialize(new ProblemDetails
             {
                 Status = StatusCodes.Status500InternalServerError,
                 Title = "Internal Errors",
                 Type = "https://example.com/probs/internal",
                 Detail = exception.Message,
                 Instance = "",
-            }.ToString());
+            }));
         }
     }
 }
