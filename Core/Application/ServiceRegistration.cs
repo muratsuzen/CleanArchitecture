@@ -1,13 +1,9 @@
-﻿using Application.Behaviors;
+﻿using Application.Behaviors.Logging;
+using Application.Behaviors.Validator;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application
 {
@@ -18,10 +14,11 @@ namespace Application
             var assembly = Assembly.GetExecutingAssembly();
 
             services.AddAutoMapper(assembly);
-            services.AddMediatR(x=>x.RegisterServicesFromAssembly(assembly));
+            services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
             services.AddValidatorsFromAssembly(assembly);
 
-            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidatorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         }
     }
 }

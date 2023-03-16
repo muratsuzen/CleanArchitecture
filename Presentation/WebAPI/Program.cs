@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+//Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
