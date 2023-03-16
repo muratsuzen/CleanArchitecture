@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
-
-namespace Application.Exceptions
+﻿namespace Application.Exceptions
 {
     public class ValidatorException : Exception
     {
