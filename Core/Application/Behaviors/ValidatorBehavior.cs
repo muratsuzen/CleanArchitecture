@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Application.Exceptions;
+using FluentValidation;
 using MediatR;
 
 namespace Application.Behaviors
@@ -19,10 +20,10 @@ namespace Application.Behaviors
 
             var validationContext = new ValidationContext<TRequest>(request);
             var validationResults = await Task.WhenAll(_validators.Select(x => x.ValidateAsync(validationContext, cancellationToken)));
-            var errors = validationResults.SelectMany(x => x.Errors).Where(x => x != null).ToList();
+            var errors = validationResults.SelectMany(x => x.Errors).Where(x => x != null).Select(x=>x.ErrorMessage).Distinct().ToArray();
 
             if (errors.Any())
-                throw new ValidationException(errors);
+                throw new ValidatorException(errors);
 
             return await next();
 

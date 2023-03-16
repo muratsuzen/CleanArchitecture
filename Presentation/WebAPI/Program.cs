@@ -1,4 +1,5 @@
 using Application;
+using Application.Middlewares;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 
