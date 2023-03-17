@@ -5,8 +5,6 @@ using System.Text.Json;
 
 namespace Application.Behaviors.Logging
 {
-    //Interface key
-    public interface ILoggingRequest { }
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>, ILoggingRequest
     {
