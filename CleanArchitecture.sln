@@ -11,15 +11,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{EB98D5E7-A607-447C-813B-895C2408EC51}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Core\Application\Application.csproj", "{EBB28377-C5BE-4D31-8853-FD0D47D1021A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Core\Application\Application.csproj", "{EBB28377-C5BE-4D31-8853-FD0D47D1021A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Core\Domain\Domain.csproj", "{E517BBE7-BB76-46C3-9C45-2BEFE37549CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Core\Domain\Domain.csproj", "{E517BBE7-BB76-46C3-9C45-2BEFE37549CD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "Infrastructure\Persistence\Persistence.csproj", "{5B925E0A-40EA-455E-B4E9-9434EE465DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\Infrastructure\Persistence\Persistence.csproj", "{5B925E0A-40EA-455E-B4E9-9434EE465DE8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "Infrastructure\Identity\Identity.csproj", "{55775DA8-7CAD-472C-9E24-6C6105EE3D92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "src\Infrastructure\Identity\Identity.csproj", "{55775DA8-7CAD-472C-9E24-6C6105EE3D92}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "Presentation\WebAPI\WebAPI.csproj", "{E272C0ED-6981-4DED-BB07-BFCB2199F4A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "src\Presentation\WebAPI\WebAPI.csproj", "{E272C0ED-6981-4DED-BB07-BFCB2199F4A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorComponents", "src\Presentation\BlazorComponents\BlazorComponents.csproj", "{98B42C8F-4C82-46FD-B52D-2511D56AFAEE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWeb", "src\Presentation\BlazorWeb\BlazorWeb.csproj", "{D6745215-AC70-4799-860B-D47827BA8B00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorMaui", "src\Presentation\BlazorMaui\BlazorMaui.csproj", "{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,20 @@ Global
 		{E272C0ED-6981-4DED-BB07-BFCB2199F4A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E272C0ED-6981-4DED-BB07-BFCB2199F4A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E272C0ED-6981-4DED-BB07-BFCB2199F4A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98B42C8F-4C82-46FD-B52D-2511D56AFAEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B42C8F-4C82-46FD-B52D-2511D56AFAEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B42C8F-4C82-46FD-B52D-2511D56AFAEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B42C8F-4C82-46FD-B52D-2511D56AFAEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6745215-AC70-4799-860B-D47827BA8B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6745215-AC70-4799-860B-D47827BA8B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6745215-AC70-4799-860B-D47827BA8B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6745215-AC70-4799-860B-D47827BA8B00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +80,9 @@ Global
 		{5B925E0A-40EA-455E-B4E9-9434EE465DE8} = {0C1F240A-53D2-436E-A076-EC516485CF0E}
 		{55775DA8-7CAD-472C-9E24-6C6105EE3D92} = {0C1F240A-53D2-436E-A076-EC516485CF0E}
 		{E272C0ED-6981-4DED-BB07-BFCB2199F4A6} = {EB98D5E7-A607-447C-813B-895C2408EC51}
+		{98B42C8F-4C82-46FD-B52D-2511D56AFAEE} = {EB98D5E7-A607-447C-813B-895C2408EC51}
+		{D6745215-AC70-4799-860B-D47827BA8B00} = {EB98D5E7-A607-447C-813B-895C2408EC51}
+		{59AE6799-F7B5-4EC5-95F6-AB405B5BB714} = {EB98D5E7-A607-447C-813B-895C2408EC51}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AFBE721-E720-4FD3-8143-7D8F4FB07EC1}
