@@ -1,0 +1,48 @@
+@page "/product"
+@using BlazorComponents.Data;
+@using BlazorComponents.Models;
+@inject ProductService ProductService
+
+@if(productModels == null){
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Barcode</th>
+                <th>Price</th>
+                <th>CreateDate</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in productModels)
+            {
+                <tr>
+                    <td>@product.Id</td>
+                    <td>@product.Name</td>
+                    <td>@product.Barcode</td>
+                    <td>@product.Price</td>
+                    <td>@product.CreateDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code{
+    private List<ProductModel> productModels;
+
+    protected override Task OnInitializedAsync()
+    {
+        productModels = new List<ProductModel>();
+        productModels.Add(new ProductModel() { Name = "13123" });
+        //productModels = ProductService.Get().Result;
+        return base.OnInitializedAsync();
+    }
+
+}

@@ -1,4 +1,5 @@
-﻿using BlazorComponents.Data;
+﻿using BlazorComponents;
+using BlazorComponents.Data;
 using Microsoft.Extensions.Logging;
 
 namespace BlazorMaui
@@ -15,6 +16,7 @@ namespace BlazorMaui
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
+            builder.Services.AddComponentServices();
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
