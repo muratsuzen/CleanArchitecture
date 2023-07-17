@@ -25,9 +25,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<GetProductResponse>> Get(GetProductRequest request, CancellationToken cancellationToken)
+        public async Task<ActionResult<List<GetProductResponse>>> Get(CancellationToken cancellationToken)
         {
-            var response = await mediator.Send(request, cancellationToken);
+            var response = await mediator.Send(new GetProductRequest(),cancellationToken);
             return Ok(response);
         }
     }

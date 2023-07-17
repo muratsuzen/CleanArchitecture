@@ -1,6 +1,7 @@
 using Application;
 using Application.Middlewares;
 using Persistence;
+using WebAPI.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
+builder.Services.AddApplicationServices();
+
+builder.Services.ConfigureApiBehavior();
+builder.Services.ConfigureCorsPolicy();
 
 var app = builder.Build();
 
