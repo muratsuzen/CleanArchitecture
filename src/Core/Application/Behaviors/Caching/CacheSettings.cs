@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Behaviors.Caching
 {
-    public class CacheSetting
+    public class CacheSettings
     {
         public int SlidingExpiration { get; set; }
     }

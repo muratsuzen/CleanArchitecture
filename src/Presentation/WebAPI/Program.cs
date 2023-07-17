@@ -26,9 +26,9 @@ if (app.Environment.IsDevelopment())
 
 //Custom Exception Middleware
 app.UseMiddleware<ExceptionMiddleware>();
-
 app.UseAuthorization();
-
+app.UseErrorHandler();
+//app.UseCors();
 app.MapControllers();
 
 app.Run();
