@@ -2,6 +2,8 @@
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Text;
+using System.Text.Json;
 
 namespace Application.Behaviors.Caching
 {
@@ -22,14 +24,37 @@ namespace Application.Behaviors.Caching
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            TResponse response;
             if (request.BypassCache) return await next();
 
-            async Task<TResponse> GetResponseAddToCache() {
-                response = await next();
-                var slidingExpration = request.SlidingExpiration == null ? TimeSpan.FromHours(_cacheSetting.SlidingExpiration) : request.SlidingExpiration;
-                var options = 
+            TResponse response;
+
+
+
+            byte[]? cachedResponse = await _cache.GetAsync((string)request.CacheKey, cancellationToken);
+            if (cachedResponse != null)
+            {
+                response = JsonSerializer.Deserialize<TResponse>(Encoding.Default.GetString(cachedResponse))!;
+                _logger.LogInformation($"Fetched from Cache -> {request.CacheKey}");
             }
+            else
+            {
+                response = await GetResponseAddToCache(request, next, cancellationToken);
+            }
+            return response;
         }
+
+        private async Task<TResponse> GetResponseAddToCache(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            TResponse response = await next();
+            var slidingExpration = request.SlidingExpiration ?? TimeSpan.FromDays(_cacheSetting.SlidingExpiration);
+            var options = new DistributedCacheEntryOptions { SlidingExpiration = slidingExpration };
+            var serializedData = Encoding.Default.GetBytes(JsonSerializer.Serialize(response));
+
+            await _cache.SetAsync(request.CacheKey, serializedData, options, cancellationToken);
+            _logger.LogInformation($"Added to Cache -> {request.CacheKey}");
+
+            return response;
+        }
+
     }
 }

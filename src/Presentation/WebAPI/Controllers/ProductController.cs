@@ -1,5 +1,7 @@
 ﻿using Application.Features.Products.Commands.CreateProduct;
 using Application.Features.Products.Queries.GetProduct;
+using Application.Requests;
+using Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +27,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<GetProductResponse>>> Get(CancellationToken cancellationToken)
+        public async Task<ActionResult<List<GetListProductRequest>>> Get([FromQuery] PageRequest request, CancellationToken cancellationToken)
         {
-            var response = await mediator.Send(new GetProductRequest(),cancellationToken);
+            GetListResponse<GetListProductResponse> response = await mediator.Send(new GetListProductRequest { PageRequest = request},cancellationToken : cancellationToken);
             return Ok(response);
         }
     }

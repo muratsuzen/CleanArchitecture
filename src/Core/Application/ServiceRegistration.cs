@@ -1,4 +1,5 @@
-﻿using Application.Behaviors.Logging;
+﻿using Application.Behaviors.Caching;
+using Application.Behaviors.Logging;
 using Application.Behaviors.Validator;
 using FluentValidation;
 using MediatR;
@@ -14,7 +15,11 @@ namespace Application
             var assembly = Assembly.GetExecutingAssembly();
 
             services.AddAutoMapper(assembly);
-            services.AddMediatR(x => x.RegisterServicesFromAssembly(assembly));
+            services.AddMediatR(configuration =>
+            {
+                configuration.RegisterServicesFromAssembly(assembly);
+                configuration.AddOpenBehavior(typeof(CachingBehavior<,>));
+            });
             services.AddValidatorsFromAssembly(assembly);
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
